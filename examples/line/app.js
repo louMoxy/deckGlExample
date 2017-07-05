@@ -71,7 +71,7 @@ class Root extends Component {
           flightPaths={flightPaths}
           mapboxData={mapboxData}
           airports={airports}
-          devonData={devonData} />
+          devonData={devonData || []} />
       </MapGL>
     );
   }

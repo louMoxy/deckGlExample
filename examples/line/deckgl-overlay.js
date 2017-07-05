@@ -64,6 +64,13 @@ export default class DeckGLOverlay extends Component {
     this._animateHeight = this._animateHeight.bind(this);
 
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.devonData.length !== this.props.devonData.length) {
+      this._animate();
+    }
+  }
+
    componentDidMount() {
     this._animate();
   }
@@ -74,8 +81,8 @@ export default class DeckGLOverlay extends Component {
 
   _animate() {
     this._stopAnimate();
-    // wait 1.5 secs to start animation so that all data are loaded
-    this.startAnimationTimer = window.setTimeout(this._startAnimate, 1500);
+    // wait 3.5 secs to start animation so that all data are loaded
+    this.startAnimationTimer = window.setTimeout(this._startAnimate, 3500);
   }
 
   _startAnimate() {
@@ -110,16 +117,17 @@ export default class DeckGLOverlay extends Component {
       // }),
       new HexagonLayer({
         id: 'hexagons',
-        getColor: d => getColor(d.RoadCategory),
+        // getColorValue: d => getColor(d['RoadCategory']),
         data: devonData,
-        radiusScale: 80,
+        radius: 1000,
         elevationRange: [0, 500],
         elevationScale: this.state.elevationScale,
         extruded: true,
         getPosition: d => d.Coordinates,
-        onHover: this.props.onHover,
         opacity: 1,
-        pickable: Boolean(this.props.onHover)
+        pickable: true,
+        onHover: info => console.log('Hovered:', info),
+        onClick: info => console.log('Clicked:', info)
       })
     ];
 
